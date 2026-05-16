@@ -7,6 +7,8 @@ on:
 jobs:
   pre-commit-integration:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -29,6 +31,8 @@ jobs:
           cd "$SAMPLE_REPO"
 
           git init
+          git config user.name "CI"
+          git config user.email "ci@example.com"
 
           cat > .pre-commit-config.yaml <<EOF
           repos:
@@ -39,6 +43,7 @@ jobs:
           EOF
 
           printf 'int m = 2 × 3;\n' > sample.c
+          grep -Fx 'int m = 2 × 3;' sample.c
           git add .
 
           # First run should apply fixes and return non-zero.
