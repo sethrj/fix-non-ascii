@@ -8,6 +8,6 @@ Pre-commit hook to fix and validate non-ASCII characters in source files
     - id: fix-non-ascii
 ```
 
-The bundled hook keeps the original Celeritas file matcher:
-`\.(cc|hh|cu|cmake)$|CMakeLists\.txt$`. Override `files:` in your
+The bundled hook matches C, C++, CUDA, and CMake files.
+Override `files:` in your
 `.pre-commit-config.yaml` if you want to target different file types.

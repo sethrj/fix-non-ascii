@@ -1,6 +1,6 @@
 - id: fix-non-ascii
   name: fix non-ASCII characters in source files
-  entry: scripts/dev/fix-non-ascii.py
+  entry: ./fix-non-ascii.py
   language: script
   types_or: [file]
-  files: \.(cc|hh|cu|cmake)$|CMakeLists\.txt$
+  files: \.(c|cc|cpp|cxx|cu|h|hh|hpp|hxx|cmake)$|CMakeLists\.txt$

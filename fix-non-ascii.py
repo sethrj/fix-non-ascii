@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-# Copyright Celeritas contributors: see top-level COPYRIGHT file for details
-# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+# Copyright UT-Battelle, LLC
+# SPDX-License-Identifier: Apache-2.0
 """Fix non-ASCII characters in source files.
 
 Replace known Unicode symbols with ASCII equivalents and remove the UTF-8
@@ -14,7 +14,7 @@ pattern in the hook configuration.
 
 Usage (standalone)::
 
-    python3 scripts/dev/fix-non-ascii.py src/celeritas/Types.hh
+    python3 fix-non-ascii.py src/celeritas/Types.hh
 
 Usage (pre-commit)::
 
@@ -25,8 +25,10 @@ import argparse
 import sys
 from pathlib import Path
 
+# UTF-8 encoding of the byte order mark.
 _UTF8_BOM = b"\xef\xbb\xbf"
 
+# Mapping of Unicode characters to ASCII replacements.
 _REPLACEMENTS = {
     "\u00d7": "x",
     "\u2010": "-",
