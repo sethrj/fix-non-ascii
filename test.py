@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Locally executable integration test for the fix-non-ascii pre-commit hook."""
+
 from __future__ import annotations
 
 import os
@@ -58,6 +60,7 @@ def main() -> int:
 
         run(["git", "add", "."], cwd=sample_repo)
 
+        # Keep live pre-commit output visible for immediate CI/local debugging context.
         first_run = run(["pre-commit", "run", "--all-files", "--verbose"], cwd=sample_repo, check=False)
         if first_run.returncode == 0:
             print(
