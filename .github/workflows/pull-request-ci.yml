@@ -16,43 +16,15 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.12'
 
       - name: Install pre-commit
-        run: python3 -m pip install pre-commit
+        run: python3 -m pip install pre-commit==4.2.0
+
+      - name: Configure git user for CI
+        run: |
+          git config --global user.name "CI"
+          git config --global user.email "ci@example.com"
 
       - name: Verify pre-commit hook developer workflow
-        run: |
-          set -euxo pipefail
-
-          SAMPLE_REPO="$RUNNER_TEMP/pre-commit-sample"
-          rm -rf "$SAMPLE_REPO"
-          mkdir -p "$SAMPLE_REPO"
-          cd "$SAMPLE_REPO"
-
-          git init
-          git config user.name "CI"
-          git config user.email "ci@example.com"
-
-          cat > .pre-commit-config.yaml <<EOF
-          repos:
-            - repo: $GITHUB_WORKSPACE
-              rev: $GITHUB_SHA
-              hooks:
-                - id: fix-non-ascii
-          EOF
-
-          printf 'int m = 2 × 3;\n' > sample.c
-          grep -Fx 'int m = 2 × 3;' sample.c
-          git add .
-
-          # First run should apply fixes and return non-zero.
-          if pre-commit run --all-files --verbose; then
-            echo "Expected pre-commit to fail after applying fixes"
-            exit 1
-          fi
-
-          grep -Fx 'int m = 2 x 3;' sample.c
-
-          # Second run should be clean.
-          pre-commit run --all-files --verbose
+        run: ./test.sh
