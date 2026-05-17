@@ -31,7 +31,12 @@ def main() -> int:
         return 1
 
     hook_manifest = hook_manifest_path.read_text(encoding="utf-8")
-    if "language: python" not in hook_manifest:
+    languages = [
+        line.split(":", 1)[1].strip()
+        for line in hook_manifest.splitlines()
+        if line.lstrip().startswith("language:")
+    ]
+    if languages != ["python"]:
         print("Expected hook to use language: python", file=sys.stderr)
         return 1
 
