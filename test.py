@@ -25,7 +25,12 @@ def run_capture(cmd: list[str], *, cwd: Path | None = None, check: bool = True) 
 
 def main() -> int:
     repo_root = Path(__file__).resolve().parent
-    hook_manifest = (repo_root / ".pre-commit-hooks.yaml").read_text(encoding="utf-8")
+    hook_manifest_path = repo_root / ".pre-commit-hooks.yaml"
+    if not hook_manifest_path.is_file():
+        print(f"Missing expected hook manifest: {hook_manifest_path}", file=sys.stderr)
+        return 1
+
+    hook_manifest = hook_manifest_path.read_text(encoding="utf-8")
     if "language: python" not in hook_manifest:
         print("Expected hook to use language: python", file=sys.stderr)
         return 1
