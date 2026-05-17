@@ -37,7 +37,7 @@ def main() -> int:
         if line.lstrip().startswith("language:")
     ]
     if languages != ["python"]:
-        print("Expected hook to use language: python", file=sys.stderr)
+        print(f"Expected hook to use language: python, found: {languages}", file=sys.stderr)
         return 1
 
     hook_rev = os.environ.get("HOOK_REV")
