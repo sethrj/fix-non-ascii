@@ -27,4 +27,4 @@ jobs:
           git config --global user.email "ci@example.com"
 
       - name: Verify pre-commit hook developer workflow
-        run: ./test.sh
+        run: python3 test.py
