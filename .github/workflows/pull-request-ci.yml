@@ -1,11 +1,11 @@
-name: Pull Request CI
+name: PR
 
 on:
   pull_request:
   workflow_dispatch:
 
 jobs:
-  pre-commit-integration:
+  all:
     runs-on: ubuntu-latest
     permissions:
       contents: read
