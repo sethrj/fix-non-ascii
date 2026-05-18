@@ -24,12 +24,13 @@ Usage (pre-commit)::
 import argparse
 import sys
 from pathlib import Path
+from typing import Optional
 
 # UTF-8 encoding of the byte order mark.
 _UTF8_BOM = b"\xef\xbb\xbf"
 
 # Mapping of Unicode characters to ASCII replacements.
-_REPLACEMENTS = {
+_REPLACEMENTS: dict[str, str] = {
     "\u00d7": "x",
     "\u2010": "-",
     "\u2011": "-",
@@ -49,10 +50,12 @@ _REPLACEMENTS = {
     "\u2212": "-",
 }
 
-_REPLACEMENTS_TABLE = str.maketrans({ord(k): v for k, v in _REPLACEMENTS.items()})
+_REPLACEMENTS_TABLE: dict[int, str] = str.maketrans(
+    {ord(k): v for k, v in _REPLACEMENTS.items()}
+)
 
 
-def _find_non_ascii_errors(path, text):
+def _find_non_ascii_errors(path: Path, text: str) -> list[str]:
     """Return error strings for non-ASCII characters in *text*."""
     errors = []
     for lineno, line in enumerate(text.splitlines(), 1):
@@ -65,7 +68,7 @@ def _find_non_ascii_errors(path, text):
     return errors
 
 
-def process_file(path):
+def process_file(path: Path) -> tuple[bool, list[str]]:
     """Fix non-ASCII characters in *path* in place."""
     try:
         raw = path.read_bytes()
@@ -110,7 +113,7 @@ def _build_parser():
     return parser
 
 
-def main(argv=None):
+def main(argv: Optional[list[str]] = None) -> int:
     args = _build_parser().parse_args(argv)
 
     result = 0
