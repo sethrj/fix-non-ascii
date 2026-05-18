@@ -3,4 +3,4 @@
   entry: fix-non-ascii.py
   language: python
   types_or: [file]
-  files: \.(c|cc|cpp|cxx|cu|h|hh|hpp|hxx|cmake)$|CMakeLists\.txt$
+  files: '\.(c|cc|cpp|cxx|cu|h|hh|hpp|hxx|cmake)$|CMakeLists\.txt$'

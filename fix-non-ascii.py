@@ -21,6 +21,8 @@ Usage (pre-commit)::
     pre-commit run fix-non-ascii
 """
 
+from __future__ import annotations
+
 import argparse
 import sys
 from pathlib import Path

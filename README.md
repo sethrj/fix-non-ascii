@@ -8,7 +8,7 @@ characters in source files.
   rev: v1.0.0
   hooks:
     - id: fix-non-ascii
-      files: "\.(cc|hh|cu)" # optional
+      files: '\.(cc|hh|cu)' # optional
 ```
 
 The bundled hook matches C, C++, CUDA, and CMake files by default: see the
