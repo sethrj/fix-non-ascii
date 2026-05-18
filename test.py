@@ -25,6 +25,21 @@ def run_capture(cmd: list[str], *, cwd: Path | None = None, check: bool = True) 
 
 def main() -> int:
     repo_root = Path(__file__).resolve().parent
+    hook_manifest_path = repo_root / ".pre-commit-hooks.yaml"
+    if not hook_manifest_path.is_file():
+        print(f"Missing expected hook manifest: {hook_manifest_path}", file=sys.stderr)
+        return 1
+
+    hook_manifest = hook_manifest_path.read_text(encoding="utf-8")
+    languages = [
+        line.split(":", 1)[1].strip()
+        for line in hook_manifest.splitlines()
+        if line.lstrip().startswith("language:")
+    ]
+    if languages != ["python"]:
+        print(f"Expected hook to use language: python, found: {languages}", file=sys.stderr)
+        return 1
+
     hook_rev = os.environ.get("HOOK_REV")
     if not hook_rev:
         hook_rev_result = run_capture(["git", "-C", str(repo_root), "rev-parse", "HEAD"], check=False)
